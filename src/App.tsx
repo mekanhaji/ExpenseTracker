@@ -1,13 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 
+const createPath = (path: string) => `/ExpenseTracker${path}`;
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: createPath("/"),
     element: <Home />,
   },
   {
-    path: "/about",
+    path: createPath("/about"),
     element: <div>About page</div>,
   },
 ]);
