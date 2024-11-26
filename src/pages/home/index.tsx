@@ -33,19 +33,36 @@ const Home = () => {
   return (
     <AppLayout>
       <main className="my-2">
-        <h1 className="text-center text-4xl">
-          You have spent {CURRENCY} {currentExpense} today out of {CURRENCY}{" "}
-          {DAILY_LIMIT}
-        </h1>
-        <Progress
-          value={percentage(currentExpense, DAILY_LIMIT)}
-          className={cn({
-            "[&>div]:bg-red-500": currentExpense >= DANGER_LIMIT,
-            "[&>div]:bg-yellow-500":
+        <div
+          className={cn("flex flex-col gap-2 p-2 rounded-lg", {
+            "bg-red-100": currentExpense >= DANGER_LIMIT,
+            "bg-yellow-100":
               currentExpense >= WARNING_LIMIT && currentExpense < DANGER_LIMIT,
-            "[&>div]:bg-green-500": currentExpense <= WARNING_LIMIT,
+            "bg-green-100": currentExpense < WARNING_LIMIT,
           })}
-        />
+        >
+          <Progress
+            value={percentage(currentExpense, DAILY_LIMIT)}
+            className={cn({
+              "[&>div]:bg-red-500": currentExpense >= DANGER_LIMIT,
+              "[&>div]:bg-yellow-500":
+                currentExpense >= WARNING_LIMIT &&
+                currentExpense < DANGER_LIMIT,
+              "[&>div]:bg-green-500": currentExpense < WARNING_LIMIT,
+            })}
+          />
+
+          <h1
+            className={cn("text-center text-2xl", {
+              "text-red-500": currentExpense >= DANGER_LIMIT,
+              "text-yellow-500":
+                currentExpense >= WARNING_LIMIT &&
+                currentExpense < DANGER_LIMIT,
+            })}
+          >
+            {CURRENCY} {currentExpense} / {DAILY_LIMIT}
+          </h1>
+        </div>
 
         <form className="flex flex-col items-center" onSubmit={onSubmit}>
           <input
