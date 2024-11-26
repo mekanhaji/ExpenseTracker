@@ -2,6 +2,15 @@ import { useState } from "react";
 import AppLayout from "../../layout";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 
 const DAILY_LIMIT = 120;
 const WARNING_LIMIT = 100;
@@ -16,6 +25,7 @@ const percentage = (current: number, total: number) => {
 
 const Home = () => {
   const [currentExpense, setCurrentExpense] = useState<number>(0);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,13 +38,14 @@ const Home = () => {
     }
     setCurrentExpense(currentExpense + expense);
     input.value = "";
+    setIsDialogOpen(false);
   };
 
   return (
     <AppLayout>
-      <main className="my-2">
+      <main className="my-2 flex flex-col items-center gap-4">
         <div
-          className={cn("flex flex-col gap-2 p-2 rounded-lg", {
+          className={cn("flex flex-col gap-2 p-2 rounded-lg w-full", {
             "bg-red-100": currentExpense >= DANGER_LIMIT,
             "bg-yellow-100":
               currentExpense >= WARNING_LIMIT && currentExpense < DANGER_LIMIT,
@@ -64,16 +75,26 @@ const Home = () => {
           </h1>
         </div>
 
-        <form className="flex flex-col items-center" onSubmit={onSubmit}>
-          <input
-            type="text"
-            placeholder={"e.g. 10"}
-            className="p-2 my-2 border border-gray-300 rounded-md max-w-[420px]"
-          />
-          <button className="p-2 bg-blue-500 text-white rounded-md max-w-[200px]">
-            Add Expense
-          </button>
-        </form>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger className="p-3 rounded-lg bg-blue-500 text-white flex gap-1 items-center w-fit">
+            <Plus className="h-4 w-4" />
+            <p>Add Expense</p>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>How much did you spend this time?</DialogTitle>
+              <DialogDescription>Enter the amount you spent</DialogDescription>
+              <form className="flex flex-col items-center" onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  placeholder={"e.g. 10"}
+                  className="p-2 my-2 border border-gray-300 rounded-md max-w-[420px]"
+                />
+                <button>Add Expense</button>
+              </form>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </main>
     </AppLayout>
   );
