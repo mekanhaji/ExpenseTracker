@@ -11,11 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-
-const DAILY_LIMIT = 120;
-const WARNING_LIMIT = 100;
-const DANGER_LIMIT = 120;
-const CURRENCY = "₹";
+import { useExpenseStore } from "@/store";
 
 const percentage = (current: number, total: number) => {
   if (current > total) return 100;
@@ -24,8 +20,9 @@ const percentage = (current: number, total: number) => {
 };
 
 const Home = () => {
-  const [currentExpense, setCurrentExpense] = useState<number>(0);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { currency, expense, dailyLimit, addExpense, warningLimit } =
+    useExpenseStore();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +33,7 @@ const Home = () => {
       alert("Please enter a valid number");
       return;
     }
-    setCurrentExpense(currentExpense + expense);
+    addExpense(expense);
     input.value = "";
     setIsDialogOpen(false);
   };
@@ -46,32 +43,29 @@ const Home = () => {
       <main className="my-2 flex flex-col items-center gap-4">
         <div
           className={cn("flex flex-col gap-2 p-2 rounded-lg w-full", {
-            "bg-red-100": currentExpense >= DANGER_LIMIT,
-            "bg-yellow-100":
-              currentExpense >= WARNING_LIMIT && currentExpense < DANGER_LIMIT,
-            "bg-green-100": currentExpense < WARNING_LIMIT,
+            "bg-red-100": expense >= dailyLimit,
+            "bg-yellow-100": expense >= warningLimit && expense < dailyLimit,
+            "bg-green-100": expense < warningLimit,
           })}
         >
           <Progress
-            value={percentage(currentExpense, DAILY_LIMIT)}
+            value={percentage(expense, dailyLimit)}
             className={cn({
-              "[&>div]:bg-red-500": currentExpense >= DANGER_LIMIT,
+              "[&>div]:bg-red-500": expense >= dailyLimit,
               "[&>div]:bg-yellow-500":
-                currentExpense >= WARNING_LIMIT &&
-                currentExpense < DANGER_LIMIT,
-              "[&>div]:bg-green-500": currentExpense < WARNING_LIMIT,
+                expense >= warningLimit && expense < dailyLimit,
+              "[&>div]:bg-green-500": expense < warningLimit,
             })}
           />
 
           <h1
             className={cn("text-center text-2xl", {
-              "text-red-500": currentExpense >= DANGER_LIMIT,
+              "text-red-500": expense >= dailyLimit,
               "text-yellow-500":
-                currentExpense >= WARNING_LIMIT &&
-                currentExpense < DANGER_LIMIT,
+                expense >= warningLimit && expense < dailyLimit,
             })}
           >
-            {CURRENCY} {currentExpense} / {DAILY_LIMIT}
+            {currency} {expense} / {dailyLimit}
           </h1>
         </div>
 
