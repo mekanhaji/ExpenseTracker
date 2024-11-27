@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Clock12Icon, Plus } from "lucide-react";
+import { Clock12Icon, Pencil, Plus, Trash2 } from "lucide-react";
 import { useExpenseStore } from "@/store";
 
 const percentage = (current: number, total: number) => {
@@ -38,6 +38,7 @@ const Home = () => {
     warningLimit,
 
     addExpense,
+    removeExpense,
   } = useExpenseStore();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +68,7 @@ const Home = () => {
           new Date(record.datetime).toLocaleDateString("en-IN") === today
       )
       .reverse();
-  }, [expenseRecords]);
+  }, [expenseRecords, expense]);
 
   return (
     <AppLayout>
@@ -142,9 +143,21 @@ const Home = () => {
         </Dialog>
 
         {expenseRecordsMemoized.map((record) => (
-          <div className="bg-app-100 p-2 w-full rounded-lg flex justify-between items-center">
+          <div
+            className="bg-app-100 p-2 w-full rounded-lg flex justify-between items-center"
+            key={record.datetime}
+          >
             <div className="flex flex-col justify-between">
-              <h2 className="text-2xl">{record.discretion}</h2>
+              <div className="flex gap-5 items-center">
+                <h2 className="text-2xl">{record.discretion}</h2>
+                <div className="flex gap-3">
+                  <Pencil className="h-4 w-4 text-app-700 cursor-pointer" />
+                  <Trash2
+                    className="h-4 w-4 text-app-error-700 cursor-pointer"
+                    onClick={() => removeExpense(record.datetime)}
+                  />
+                </div>
+              </div>
               <span className="flex items-center gap-2 uppercase">
                 <Clock12Icon className="h-4 w-4" />{" "}
                 {formatDateTime(record.datetime)}
