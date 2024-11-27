@@ -1,17 +1,10 @@
-import { useMemo, useState } from "react";
-import AppLayout from "../../layout";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Clock12Icon, Pencil, Plus, Trash2 } from "lucide-react";
 import { useExpenseStore } from "@/store";
+import { Clock12Icon, Pencil, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import AppLayout from "../../layout";
+import CreateUpdateExpenseModal from "./components/CreateUpdateExpenseModal";
 
 const percentage = (current: number, total: number) => {
   if (current > total) return 100;
@@ -30,6 +23,8 @@ const formatDateTime = (datetime: string) => {
 
 const Home = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [updateId, setUpdateId] = useState<string | null>(null);
+
   const {
     currency,
     expense,
@@ -37,28 +32,8 @@ const Home = () => {
     expenseRecords,
     warningLimit,
 
-    addExpense,
     removeExpense,
   } = useExpenseStore();
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const amount = form.querySelector("input[name=amount]") as HTMLInputElement;
-    const discretion = form.querySelector(
-      "input[name=discretion]"
-    ) as HTMLInputElement;
-
-    const expense = parseInt(amount.value, 10);
-    if (isNaN(expense)) {
-      alert("Please enter a valid number");
-      return;
-    }
-    addExpense(expense, discretion.value);
-    amount.value = "";
-    discretion.value = "";
-    setIsDialogOpen(false);
-  };
 
   const expenseRecordsMemoized = useMemo(() => {
     const today = new Date().toLocaleDateString("en-IN");
@@ -102,45 +77,12 @@ const Home = () => {
           </h1>
         </div>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger className="p-3 rounded-lg bg-app-500 text-white flex gap-1 items-center w-fit">
-            <Plus className="h-4 w-4" />
-            <p>Add Expense</p>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>How much did you spend this time?</DialogTitle>
-              <DialogDescription>
-                Enter the details of your spending
-              </DialogDescription>
-              <form className="flex flex-col items-center" onSubmit={onSubmit}>
-                <div className="flex flex-col w-full">
-                  <label htmlFor="amount">Amount</label>
-                  <input
-                    type="text"
-                    name="amount"
-                    placeholder={"e.g. 10"}
-                    className="p-2 my-2 border border-gray-300 rounded-md"
-                  />
-                </div>
-
-                <div className="flex flex-col w-full">
-                  <label htmlFor="discretion">Description</label>
-                  <input
-                    type="text"
-                    name="discretion"
-                    placeholder={"e.g. Lunch"}
-                    className="p-2 my-2 border border-gray-300 rounded-md"
-                  />
-                </div>
-
-                <button className="p-2 mt-4 rounded-lg bg-app-500 text-white w-full text-center">
-                  Record Expense
-                </button>
-              </form>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+        <CreateUpdateExpenseModal
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          setUpdateId={setUpdateId}
+          updateId={updateId}
+        />
 
         {expenseRecordsMemoized.map((record) => (
           <div
@@ -151,7 +93,13 @@ const Home = () => {
               <div className="flex gap-5 items-center">
                 <h2 className="text-2xl">{record.discretion}</h2>
                 <div className="flex gap-3">
-                  <Pencil className="h-4 w-4 text-app-700 cursor-pointer" />
+                  <Pencil
+                    className="h-4 w-4 text-app-700 cursor-pointer"
+                    onClick={() => {
+                      setUpdateId(record.datetime);
+                      setIsDialogOpen(true);
+                    }}
+                  />
                   <Trash2
                     className="h-4 w-4 text-app-error-700 cursor-pointer"
                     onClick={() => removeExpense(record.datetime)}

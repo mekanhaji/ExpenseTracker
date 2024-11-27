@@ -14,6 +14,13 @@ export type ExpenseStore = {
   currency: string;
   expenseRecords: ExpenseRecord[];
   /**
+   * Get expense record by timestamp
+   *
+   * @param timestamp
+   * @returns
+   */
+  getExpenseRecord: (timestamp: string) => ExpenseRecord | undefined;
+  /**
    * Add expense to the total expense
    *
    * @param expense
@@ -76,6 +83,8 @@ const useExpenseStore = create(
       currency: "₹",
       warningLimit: 80,
       expenseRecords: [],
+      getExpenseRecord: (timestamp) =>
+        get().expenseRecords.find((record) => record.datetime === timestamp),
       addExpense: (expense, discretion) =>
         set(() => {
           const expenseRecord = createExpenseRecord(
