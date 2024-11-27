@@ -8,11 +8,18 @@ export type ExpenseRecord = {
 };
 
 export type ExpenseStore = {
-  expense: number;
+  currentExpense: number;
   dailyLimit: number;
   warningLimit: number;
   currency: string;
   expenseRecords: ExpenseRecord[];
+  /**
+   * Set the current expense
+   *
+   * @param expense
+   * @returns
+   */
+  setCurrentExpense: (expense: number) => void;
   /**
    * Get expense record by timestamp
    *
@@ -78,11 +85,12 @@ const createExpenseRecord = (
 const useExpenseStore = create(
   persist<ExpenseStore>(
     (set, get) => ({
-      expense: 0,
+      currentExpense: 0,
       dailyLimit: 100,
       currency: "₹",
       warningLimit: 80,
       expenseRecords: [],
+      setCurrentExpense: (expense) => set({ currentExpense: expense }),
       getExpenseRecord: (timestamp) =>
         get().expenseRecords.find((record) => record.datetime === timestamp),
       addExpense: (expense, discretion) =>
@@ -92,7 +100,6 @@ const useExpenseStore = create(
             discretion || "Expense"
           );
           return {
-            expense: get().expense + expense,
             expenseRecords: [...get().expenseRecords, expenseRecord],
           };
         }),
@@ -113,8 +120,11 @@ const useExpenseStore = create(
             (record) => record.datetime === timestamp
           );
           if (index !== -1) {
-            state.expense -= state.expenseRecords[index].amount;
-            state.expenseRecords.splice(index, 1);
+            const updatedRecords = [...state.expenseRecords];
+            updatedRecords.splice(index, 1);
+            return {
+              expenseRecords: updatedRecords,
+            };
           }
           return state;
         });

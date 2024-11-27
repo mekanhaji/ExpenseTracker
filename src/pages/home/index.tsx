@@ -27,23 +27,30 @@ const Home = () => {
 
   const {
     currency,
-    expense,
+    currentExpense: expense,
     dailyLimit,
     expenseRecords,
     warningLimit,
 
     removeExpense,
+    setCurrentExpense,
   } = useExpenseStore();
 
   const expenseRecordsMemoized = useMemo(() => {
     const today = new Date().toLocaleDateString("en-IN");
-    return expenseRecords
+    expenseRecords
       .filter(
         (record) =>
           new Date(record.datetime).toLocaleDateString("en-IN") === today
       )
       .reverse();
-  }, [expenseRecords, expense]);
+    // update the current expense
+    setCurrentExpense(
+      expenseRecords.reduce((acc, record) => acc + record.amount, 0)
+    );
+
+    return expenseRecords;
+  }, [expenseRecords, updateId]);
 
   return (
     <AppLayout>
