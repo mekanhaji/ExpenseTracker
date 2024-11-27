@@ -26,7 +26,14 @@ export type ExpenseStore = {
    * @param expense
    * @returns
    */
-  updateExpense: (expense: number) => void;
+  updateExpense: (timestamp: string, record: ExpenseRecord) => void;
+  /**
+   * Remove expense from the total expense
+   *
+   * @param timestamp
+   * @returns
+   */
+  removeExpense: (timestamp: string) => void;
   /**
    * Update the daily limit
    *
@@ -81,7 +88,28 @@ const useExpenseStore = create(
           };
         }),
       updateWarningLimit: (warningLimit) => set({ warningLimit }),
-      updateExpense: (expense) => set({ expense }),
+      updateExpense: (timestamp, record) =>
+        set((state) => {
+          const index = state.expenseRecords.findIndex(
+            (record) => record.datetime === timestamp
+          );
+          if (index !== -1) {
+            state.expenseRecords[index] = record;
+          }
+          return state;
+        }),
+      removeExpense: (timestamp) => {
+        set((state) => {
+          const index = state.expenseRecords.findIndex(
+            (record) => record.datetime === timestamp
+          );
+          if (index !== -1) {
+            state.expense -= state.expenseRecords[index].amount;
+            state.expenseRecords.splice(index, 1);
+          }
+          return state;
+        });
+      },
       updateDailyLimit: (dailyLimit) => set({ dailyLimit }),
       updateCurrency: (currency) => set({ currency }),
     }),
