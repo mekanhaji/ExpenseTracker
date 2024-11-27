@@ -13,7 +13,7 @@ const Header = () => {
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   return (
-    <div className="mx-auto max-w-[625px] mt-2">
+    <div className="mx-auto max-w-[625px] mt-2 px-4">
       <Header />
       <div>{children}</div>
     </div>
