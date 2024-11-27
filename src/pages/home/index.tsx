@@ -74,25 +74,26 @@ const Home = () => {
       <main className="my-2 flex flex-col items-center gap-4">
         <div
           className={cn("flex flex-col gap-2 p-2 rounded-lg w-full", {
-            "bg-red-100": expense >= dailyLimit,
-            "bg-yellow-100": expense >= warningLimit && expense < dailyLimit,
-            "bg-green-100": expense < warningLimit,
+            "bg-app-error-100": expense >= dailyLimit,
+            "bg-app-warning-100":
+              expense >= warningLimit && expense < dailyLimit,
+            "bg-app-100": expense < warningLimit,
           })}
         >
           <Progress
             value={percentage(expense, dailyLimit)}
             className={cn({
-              "[&>div]:bg-red-500": expense >= dailyLimit,
-              "[&>div]:bg-yellow-500":
+              "[&>div]:bg-app-error-500": expense >= dailyLimit,
+              "[&>div]:bg-app-warning-500":
                 expense >= warningLimit && expense < dailyLimit,
-              "[&>div]:bg-green-500": expense < warningLimit,
+              "[&>div]:bg-app-500": expense < warningLimit,
             })}
           />
 
           <h1
             className={cn("text-center text-2xl", {
-              "text-red-500": expense >= dailyLimit,
-              "text-yellow-500":
+              "text-app-error-500": expense >= dailyLimit,
+              "text-app-warning-500":
                 expense >= warningLimit && expense < dailyLimit,
             })}
           >
@@ -101,7 +102,7 @@ const Home = () => {
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger className="p-3 rounded-lg bg-green-500 text-white flex gap-1 items-center w-fit">
+          <DialogTrigger className="p-3 rounded-lg bg-app-500 text-white flex gap-1 items-center w-fit">
             <Plus className="h-4 w-4" />
             <p>Add Expense</p>
           </DialogTrigger>
@@ -132,7 +133,7 @@ const Home = () => {
                   />
                 </div>
 
-                <button className="p-2 mt-4 rounded-lg bg-green-500 text-white w-full text-center">
+                <button className="p-2 mt-4 rounded-lg bg-app-500 text-white w-full text-center">
                   Record Expense
                 </button>
               </form>
@@ -141,7 +142,7 @@ const Home = () => {
         </Dialog>
 
         {expenseRecordsMemoized.map((record) => (
-          <div className="bg-green-100 p-2 w-full rounded-lg flex justify-between items-center">
+          <div className="bg-app-100 p-2 w-full rounded-lg flex justify-between items-center">
             <div className="flex flex-col justify-between">
               <h2 className="text-2xl">{record.discretion}</h2>
               <span className="flex items-center gap-2 uppercase">
