@@ -1,4 +1,4 @@
-import { useExpenseStore } from "@/store";
+import { useExpenseStore, useUserSettingsStore } from "@/store";
 import { Clock12Icon, Pencil, Trash2 } from "lucide-react";
 import { useMemo } from "react";
 
@@ -20,12 +20,12 @@ type ExpenseRecordsListProps = {
 const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
   const { setIsDialogOpen, setUpdateId, updateId } = props;
   const {
-    currency,
     expenseRecords,
 
     removeExpense,
     setCurrentExpense,
   } = useExpenseStore();
+  const currency = useUserSettingsStore((state) => state.currency);
 
   const expenseRecordsMemoized = useMemo(() => {
     const today = new Date().toLocaleDateString("en-IN");
@@ -73,7 +73,8 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
             </span>
           </div>
           <h1 className="text-4xl">
-            {currency} {record.amount}
+            {currency}
+            {record.amount}
           </h1>
         </div>
       ))}

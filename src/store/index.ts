@@ -9,9 +9,6 @@ export type ExpenseRecord = {
 
 export type ExpenseStore = {
   currentExpense: number;
-  dailyLimit: number;
-  warningLimit: number;
-  currency: string;
   expenseRecords: ExpenseRecord[];
   /**
    * Set the current expense
@@ -48,27 +45,6 @@ export type ExpenseStore = {
    * @returns
    */
   removeExpense: (timestamp: string) => void;
-  /**
-   * Update the daily limit
-   *
-   * @param dailyLimit
-   * @returns
-   */
-  updateDailyLimit: (dailyLimit: number) => void;
-  /**
-   * Update the currency
-   *
-   * @param currency
-   * @returns
-   */
-  updateCurrency: (currency: string) => void;
-  /**
-   * Update the warning limit
-   *
-   * @param warningLimit
-   * @returns
-   */
-  updateWarningLimit: (warningLimit: number) => void;
 };
 
 const createExpenseRecord = (
@@ -86,9 +62,6 @@ const useExpenseStore = create(
   persist<ExpenseStore>(
     (set, get) => ({
       currentExpense: 0,
-      dailyLimit: 100,
-      currency: "₹",
-      warningLimit: 80,
       expenseRecords: [],
       setCurrentExpense: (expense) => set({ currentExpense: expense }),
       getExpenseRecord: (timestamp) =>
@@ -103,7 +76,6 @@ const useExpenseStore = create(
             expenseRecords: [...get().expenseRecords, expenseRecord],
           };
         }),
-      updateWarningLimit: (warningLimit) => set({ warningLimit }),
       updateExpense: (timestamp, record) =>
         set((state) => {
           const index = state.expenseRecords.findIndex(
@@ -129,8 +101,6 @@ const useExpenseStore = create(
           return state;
         });
       },
-      updateDailyLimit: (dailyLimit) => set({ dailyLimit }),
-      updateCurrency: (currency) => set({ currency }),
     }),
     {
       name: "expense-store",

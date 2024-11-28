@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { useExpenseStore } from "@/store";
+import { useExpenseStore, useUserSettingsStore } from "@/store";
 
 const percentage = (current: number, total: number) => {
   if (current > total) return 100;
@@ -8,12 +8,8 @@ const percentage = (current: number, total: number) => {
   return (current / total) * 100;
 };
 const ExpenseProgressHeader = () => {
-  const {
-    currency,
-    currentExpense: expense,
-    dailyLimit,
-    warningLimit,
-  } = useExpenseStore();
+  const { currentExpense: expense } = useExpenseStore();
+  const { currency, dailyLimit, warningLimit } = useUserSettingsStore();
   return (
     <div
       className={cn("flex flex-col gap-2 p-2 rounded-lg w-full", {
