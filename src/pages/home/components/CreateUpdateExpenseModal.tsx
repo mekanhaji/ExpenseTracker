@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 
 const expenseRecordForm = z.object({
   amount: z.string(),
@@ -82,7 +83,7 @@ const CreateUpdateExpenseModal = (props: CreateUpdateExpenseModalProps) => {
           <form className="flex flex-col items-center" onSubmit={onSubmit}>
             <div className="flex flex-col w-full">
               <label htmlFor="amount">Amount</label>
-              <input
+              <Input
                 type="text"
                 {...form.register("amount")}
                 placeholder={"e.g. 10"}
@@ -97,7 +98,7 @@ const CreateUpdateExpenseModal = (props: CreateUpdateExpenseModalProps) => {
 
             <div className="flex flex-col w-full">
               <label htmlFor="discretion">Description</label>
-              <input
+              <Input
                 type="text"
                 {...form.register("discretion")}
                 placeholder={"e.g. Lunch"}

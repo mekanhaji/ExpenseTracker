@@ -47,7 +47,7 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
     <>
       {expenseRecordsMemoized.map((record) => (
         <div
-          className="bg-app-100 p-2 w-full rounded-lg flex justify-between items-center"
+          className="bg-app-100 dark:bg-app-800 p-2 w-full rounded-lg flex justify-between items-center"
           key={record.datetime}
         >
           <div className="flex flex-col justify-between">
@@ -55,7 +55,7 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
               <h2 className="text-2xl">{record.discretion}</h2>
               <div className="flex gap-3">
                 <Pencil
-                  className="h-4 w-4 text-app-700 cursor-pointer"
+                  className="h-4 w-4 text-app-700 dark:text-app-950 cursor-pointer"
                   onClick={() => {
                     setUpdateId(record.datetime);
                     setIsDialogOpen(true);

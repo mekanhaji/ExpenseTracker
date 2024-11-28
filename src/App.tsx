@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Settings from "./pages/settings";
+import { useUserSettingsStore } from "./store";
+import { useEffect } from "react";
 
 const createPath = (path: string) => `/ExpenseTracker${path}`;
 
@@ -20,6 +22,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const theme = useUserSettingsStore((state) => state.theme);
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   return <RouterProvider router={router} />;
 }
 

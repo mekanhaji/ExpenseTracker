@@ -2,33 +2,31 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import AppLayout from "@/layout";
 import { useUserSettingsStore } from "@/store";
-import { useState } from "react";
 
 const Settings = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
   const userSettings = useUserSettingsStore();
 
   return (
     <AppLayout>
       <main className="flex flex-col gap-2 mt-2">
-        <div className="bg-app-100 flex justify-between p-2 items-center rounded-lg">
+        <div className="bg-app-100 dark:bg-app-800 flex justify-between p-2 items-center rounded-lg">
           <div>
             <h2 className="text-xl font-bold">Dark Theme</h2>
             <p className="text-muted-foreground text-sm w-5/6">
-              {darkMode
+              {userSettings.theme === "dark"
                 ? "Let's see the light, disable the dark mode 🌞"
                 : "Don't Burn your eyes, enable dark mode 🌚"}
             </p>
           </div>
           <div>
             <Switch
-              checked={darkMode}
-              onCheckedChange={() => setDarkMode(!darkMode)}
+              checked={userSettings.theme === "dark"}
+              onCheckedChange={() => userSettings.toggleTheme()}
             />
           </div>
         </div>
 
-        <div className="bg-app-100 flex justify-between p-2 items-center rounded-lg">
+        <div className="bg-app-100 dark:bg-app-800 flex justify-between p-2 items-center rounded-lg">
           <div>
             <h2 className="text-xl font-bold">Currency</h2>
             <p className="text-muted-foreground text-sm w-4/6">

@@ -144,10 +144,12 @@ export type UserSettings = {
   dailyLimit: number;
   warningLimit: number;
   currency: string;
+  theme: "light" | "dark";
 
   updateDailyLimit: (dailyLimit: number) => void;
   updateCurrency: (currency: string) => void;
   updateWarningLimit: (warningLimit: number) => void;
+  toggleTheme: () => void;
 };
 
 const useUserSettingsStore = create(
@@ -156,9 +158,14 @@ const useUserSettingsStore = create(
       dailyLimit: 100,
       currency: "₹",
       warningLimit: 80,
+      theme: "light",
       updateDailyLimit: (dailyLimit) => set({ dailyLimit }),
       updateCurrency: (currency) => set({ currency }),
       updateWarningLimit: (warningLimit) => set({ warningLimit }),
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
     }),
     {
       name: "user-settings",

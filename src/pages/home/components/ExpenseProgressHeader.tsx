@@ -17,9 +17,10 @@ const ExpenseProgressHeader = () => {
   return (
     <div
       className={cn("flex flex-col gap-2 p-2 rounded-lg w-full", {
-        "bg-app-error-100": expense >= dailyLimit,
-        "bg-app-warning-100": expense >= warningLimit && expense < dailyLimit,
-        "bg-app-100": expense < warningLimit,
+        "bg-app-error-100 dark:bg-app-error-800": expense >= dailyLimit,
+        "bg-app-warning-100 dark:bg-app-warning-800":
+          expense >= warningLimit && expense < dailyLimit,
+        "bg-app-100 dark:bg-app-800": expense < warningLimit,
       })}
     >
       <Progress

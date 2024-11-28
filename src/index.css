@@ -14,6 +14,13 @@ body {
   background-position: center;
   height: 99vh;
 }
+body.dark {
+  background: linear-gradient(
+    109.6deg,
+    rgb(0, 0, 0) 30.1%,
+    rgb(0, 0, 0) 100.2%
+  );
+}
 
 @layer base {
   :root {
