@@ -138,5 +138,33 @@ const useExpenseStore = create(
     }
   )
 );
+// -----------------------------------------------------------------
 
-export { useExpenseStore };
+export type UserSettings = {
+  dailyLimit: number;
+  warningLimit: number;
+  currency: string;
+
+  updateDailyLimit: (dailyLimit: number) => void;
+  updateCurrency: (currency: string) => void;
+  updateWarningLimit: (warningLimit: number) => void;
+};
+
+const useUserSettingsStore = create(
+  persist<UserSettings>(
+    (set) => ({
+      dailyLimit: 100,
+      currency: "₹",
+      warningLimit: 80,
+      updateDailyLimit: (dailyLimit) => set({ dailyLimit }),
+      updateCurrency: (currency) => set({ currency }),
+      updateWarningLimit: (warningLimit) => set({ warningLimit }),
+    }),
+    {
+      name: "user-settings",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
+
+export { useExpenseStore, useUserSettingsStore };
