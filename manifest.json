@@ -1,7 +1,7 @@
 {
   "name": "Spend Wisely",
   "short_name": "Spend Wisely",
-  "start_url": "/ExpenseTracker",
+  "start_url": "/SpendWisely",
   "icons": [
     {
       "src": "icons/android-chrome-192x192.png",
