@@ -12,7 +12,7 @@ const Header = () => {
         className="text-2xl font-bold cursor-pointer"
         onClick={() => navigator("/ExpenseTracker")}
       >
-        Expense Tracer
+        Spend Wisely
       </h1>
       <span
         className="text-2xl cursor-pointer"
