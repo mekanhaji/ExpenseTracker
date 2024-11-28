@@ -4,7 +4,7 @@ import Settings from "./pages/settings";
 import { useUserSettingsStore } from "./store";
 import { useEffect } from "react";
 
-const createPath = (path: string) => `/ExpenseTracker${path}`;
+const createPath = (path: string) => `/SpendWisely${path}`;
 
 const router = createBrowserRouter([
   {

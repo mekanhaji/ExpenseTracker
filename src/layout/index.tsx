@@ -10,13 +10,13 @@ const Header = () => {
     <div className="flex justify-between items-center">
       <h1
         className="text-2xl font-bold cursor-pointer"
-        onClick={() => navigator("/ExpenseTracker")}
+        onClick={() => navigator("/SpendWisely")}
       >
         Spend Wisely
       </h1>
       <span
         className="text-2xl cursor-pointer"
-        onClick={() => navigator("/ExpenseTracker/settings")}
+        onClick={() => navigator("/SpendWisely/settings")}
       >
         ⚙️
       </span>
