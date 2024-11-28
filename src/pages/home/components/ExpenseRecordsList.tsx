@@ -1,3 +1,4 @@
+import ItemCardLayout from "@/layout/ItemCardLayout";
 import { useExpenseStore, useUserSettingsStore } from "@/store";
 import { Clock12Icon, Pencil, Trash2 } from "lucide-react";
 import { useMemo } from "react";
@@ -46,10 +47,7 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
   return (
     <>
       {expenseRecordsMemoized.map((record) => (
-        <div
-          className="bg-app-100 dark:bg-app-800 p-2 w-full rounded-lg flex justify-between items-center"
-          key={record.datetime}
-        >
+        <ItemCardLayout key={record.datetime} className="w-full">
           <div className="flex flex-col justify-between">
             <div className="flex gap-5 items-center">
               <h2 className="text-2xl">{record.discretion}</h2>
@@ -76,7 +74,7 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
             {currency}
             {record.amount}
           </h1>
-        </div>
+        </ItemCardLayout>
       ))}
     </>
   );

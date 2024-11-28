@@ -1,6 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import AppLayout from "@/layout";
+import ItemCardLayout, {
+  ItemCardBody,
+  ItemCardHeader,
+  ItemCardHeaderDescription,
+  ItemCardHeaderTitle,
+} from "@/layout/ItemCardLayout";
 import { useUserSettingsStore } from "@/store";
 
 const Settings = () => {
@@ -9,40 +15,83 @@ const Settings = () => {
   return (
     <AppLayout>
       <main className="flex flex-col gap-2 mt-2">
-        <div className="bg-app-100 dark:bg-app-800 flex justify-between p-2 items-center rounded-lg">
-          <div>
-            <h2 className="text-xl font-bold">Dark Theme</h2>
-            <p className="text-muted-foreground text-sm w-5/6">
+        <ItemCardLayout>
+          <ItemCardHeader>
+            <ItemCardHeaderTitle>Dark Theme</ItemCardHeaderTitle>
+            <ItemCardHeaderDescription>
               {userSettings.theme === "dark"
                 ? "Let's see the light, disable the dark mode 🌞"
                 : "Don't Burn your eyes, enable dark mode 🌚"}
-            </p>
-          </div>
-          <div>
+            </ItemCardHeaderDescription>
+          </ItemCardHeader>
+          <ItemCardBody>
             <Switch
               checked={userSettings.theme === "dark"}
               onCheckedChange={() => userSettings.toggleTheme()}
             />
-          </div>
-        </div>
+          </ItemCardBody>
+        </ItemCardLayout>
 
-        <div className="bg-app-100 dark:bg-app-800 flex justify-between p-2 items-center rounded-lg">
-          <div>
-            <h2 className="text-xl font-bold">Currency</h2>
-            <p className="text-muted-foreground text-sm w-4/6">
+        <ItemCardLayout>
+          <ItemCardHeader>
+            <ItemCardHeaderTitle>Currency</ItemCardHeaderTitle>
+            <ItemCardHeaderDescription>
               What you symbol do you use to represent your money? 🤑
-            </p>
-          </div>
+            </ItemCardHeaderDescription>
+          </ItemCardHeader>
+          <ItemCardBody className="w-1/6">
+            <Input
+              type="text"
+              value={userSettings.currency}
+              className="w-full text-center"
+              min={1}
+              max={2}
+              onChange={(e) => userSettings.updateCurrency(e.target.value)}
+            />
+          </ItemCardBody>
+        </ItemCardLayout>
 
-          <Input
-            type="text"
-            value={userSettings.currency}
-            className="w-1/6 text-center"
-            min={1}
-            max={2}
-            onChange={(e) => userSettings.updateCurrency(e.target.value)}
-          />
-        </div>
+        <ItemCardLayout>
+          <ItemCardHeader>
+            <ItemCardHeaderTitle>Daily Expense Limit</ItemCardHeaderTitle>
+            <ItemCardHeaderDescription>
+              What is enough for the day? 🤔
+            </ItemCardHeaderDescription>
+          </ItemCardHeader>
+          <ItemCardBody className="w-1/6">
+            <Input
+              type="text"
+              value={userSettings.dailyLimit}
+              className="w-full text-center"
+              min={1}
+              max={2}
+              onChange={(e) =>
+                userSettings.updateDailyLimit(Number(e.target.value))
+              }
+            />
+          </ItemCardBody>
+        </ItemCardLayout>
+
+        <ItemCardLayout>
+          <ItemCardHeader>
+            <ItemCardHeaderTitle>Daily Expense Warning</ItemCardHeaderTitle>
+            <ItemCardHeaderDescription>
+              When should i warn you? 🚨
+            </ItemCardHeaderDescription>
+          </ItemCardHeader>
+          <ItemCardBody className="w-1/6">
+            <Input
+              type="text"
+              value={userSettings.warningLimit}
+              className="w-full text-center"
+              min={1}
+              max={2}
+              onChange={(e) =>
+                userSettings.updateWarningLimit(Number(e.target.value))
+              }
+            />
+          </ItemCardBody>
+        </ItemCardLayout>
       </main>
     </AppLayout>
   );
