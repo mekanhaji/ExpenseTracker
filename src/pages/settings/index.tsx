@@ -39,13 +39,12 @@ const Settings = () => {
               What you symbol do you use to represent your money? 🤑
             </ItemCardHeaderDescription>
           </ItemCardHeader>
-          <ItemCardBody className="w-1/6">
+          <ItemCardBody className="w-2/6">
             <Input
               type="text"
               value={userSettings.currency}
               className="w-full text-center"
-              min={1}
-              max={2}
+              placeholder="ex. $"
               onChange={(e) => userSettings.updateCurrency(e.target.value)}
             />
           </ItemCardBody>
@@ -58,13 +57,12 @@ const Settings = () => {
               What is enough for the day? 🤔
             </ItemCardHeaderDescription>
           </ItemCardHeader>
-          <ItemCardBody className="w-1/6">
+          <ItemCardBody className="w-2/6">
             <Input
-              type="text"
-              value={userSettings.dailyLimit}
+              type="number"
+              value={userSettings.dailyLimit || ""}
               className="w-full text-center"
-              min={1}
-              max={2}
+              placeholder="ex. 10"
               onChange={(e) =>
                 userSettings.updateDailyLimit(Number(e.target.value))
               }
@@ -79,13 +77,12 @@ const Settings = () => {
               When should i warn you? 🚨
             </ItemCardHeaderDescription>
           </ItemCardHeader>
-          <ItemCardBody className="w-1/6">
+          <ItemCardBody className="w-2/6">
             <Input
-              type="text"
-              value={userSettings.warningLimit}
+              type="number"
+              value={userSettings.warningLimit || ""}
               className="w-full text-center"
-              min={1}
-              max={2}
+              placeholder="ex. 5"
               onChange={(e) =>
                 userSettings.updateWarningLimit(Number(e.target.value))
               }
