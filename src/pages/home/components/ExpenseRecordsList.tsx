@@ -30,18 +30,21 @@ const ExpenseRecordsList = (props: ExpenseRecordsListProps) => {
 
   const expenseRecordsMemoized = useMemo(() => {
     const today = new Date().toLocaleDateString("en-IN");
-    expenseRecords
-      .filter(
-        (record) =>
-          new Date(record.datetime).toLocaleDateString("en-IN") === today
-      )
+
+    // get all the expense records of today
+    const todaysExpenseRecords = expenseRecords
+      .filter((record) => {
+        const was = new Date(record.datetime).toLocaleDateString("en-IN");
+        return was === today;
+      })
       .reverse();
+
     // update the current expense
     setCurrentExpense(
-      expenseRecords.reduce((acc, record) => acc + record.amount, 0)
+      todaysExpenseRecords.reduce((acc, record) => acc + record.amount, 0)
     );
 
-    return expenseRecords;
+    return todaysExpenseRecords;
   }, [expenseRecords, updateId]);
 
   return (
