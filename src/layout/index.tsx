@@ -60,7 +60,7 @@ const Header = (props: HeaderProps) => {
           invisible: !showSettingsIcon,
         })}
         aria-disabled={!showSettingsIcon}
-        onClick={() => navigator("/SpendWisely/settings")}
+        onClick={() => navigator("/settings")}
       >
         <Settings2 />
       </span>

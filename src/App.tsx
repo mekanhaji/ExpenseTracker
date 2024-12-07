@@ -1,22 +1,24 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Settings from "./pages/settings";
 import { useUserSettingsStore } from "./store";
-import { useEffect } from "react";
 
-const createPath = (path: string) => `/SpendWisely${path}`;
-
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: createPath("/"),
+    path: "/*",
     element: <Home />,
   },
   {
-    path: createPath("/about"),
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/about",
     element: <div>About page</div>,
   },
   {
-    path: createPath("/settings"),
+    path: "/settings",
     element: <Settings />,
   },
 ]);
