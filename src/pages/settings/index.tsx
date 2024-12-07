@@ -13,7 +13,13 @@ const Settings = () => {
   const userSettings = useUserSettingsStore();
 
   return (
-    <AppLayout>
+    <AppLayout
+      headerOptions={{
+        title: "Settings",
+        back: true,
+        showSettingsIcon: false,
+      }}
+    >
       <main className="flex flex-col gap-2 mt-2">
         <ItemCardLayout>
           <ItemCardHeader>
