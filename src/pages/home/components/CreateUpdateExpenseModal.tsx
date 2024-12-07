@@ -84,7 +84,7 @@ const CreateUpdateExpenseModal = (props: CreateUpdateExpenseModalProps) => {
             <div className="flex flex-col w-full">
               <label htmlFor="amount">Amount</label>
               <Input
-                type="text"
+                type="number"
                 {...form.register("amount")}
                 placeholder={"e.g. 10"}
                 className="p-2 my-2 border border-gray-300 rounded-md"
